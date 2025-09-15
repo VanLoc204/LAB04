@@ -43,10 +43,11 @@ exports.dosage= function(req, res) {
 }
 
 exports.purchase= function(req, res) {
-    // Make a get request to /api/users
-    axios.get(`${BASE_URI}:${PORT}/api/drugs`)//get request to pull drugs
+    // Hàm xử lý chức năng mua hàng: tính toán số lượng thuốc cần mua
+    let days = req.query.days || 30; // Lấy số ngày từ query, mặc định 30
+    axios.get(`${BASE_URI}:${PORT}/api/drugs`)// Gửi GET request để lấy danh sách thuốc
         .then(function(response){
-            res.render('purchase', { drugs : response.data, title: 'Purchase Drugs' });// response from API request stored as drugs to display on manage.ejs
+            res.render('purchase', { drugs : response.data, days: days, title: 'Purchase Drugs' });// Render trang purchase với dữ liệu thuốc và số ngày
         })
         .catch(err =>{
             res.send(err);

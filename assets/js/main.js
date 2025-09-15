@@ -8,59 +8,48 @@ $("#add_drug").submit(function(event){//on a submit event on the element with id
 
 
 
-$("#update_drug").submit(function(event){// on clicking submit
-    event.preventDefault();//prevent default submit behaviour
+$("#update_drug").submit(function(event){// Sự kiện submit form cập nhật thuốc
+    event.preventDefault();// Ngăn hành vi submit mặc định
 
     //var unindexed_array = $("#update_drug");
-    var unindexed_array = $(this).serializeArray();//grab data from form
+    var unindexed_array = $(this).serializeArray();// Lấy dữ liệu từ form
     var data = {}
 
-    $.map(unindexed_array, function(n, i){//assign keys and values from form data
+    $.map(unindexed_array, function(n, i){// Gán key và value từ dữ liệu form
         data[n['name']] = n['value']
     })
 
 
-    var request = {//use a put API request to use data from above to replace what's on database
+    var request = {// Sử dụng PUT request để cập nhật dữ liệu trong database
     "url" : `/api/drugs/${data.id}`,
     "method" : "PUT",
     "data" : data
 }
 
 $.ajax(request).done(function(response){
-    alert(data.name + " Updated Successfully!");
-		window.location.href = "/manage";//redirects to index after alert is closed
+    alert(data.name + " Updated Successfully!");// Hiển thị thông báo cập nhật thành công
+		window.location.href = "/manage";// Chuyển hướng về trang manage sau khi đóng alert
     })
 
 })
 
-if(window.location.pathname == "/manage"){//since items are listed on manage
-    $ondelete = $("table tbody td a.delete"); //select the anchor with class delete
-    $ondelete.click(function(){//add click event listener
-        let id = $(this).attr("data-id") // pick the value from the data-id
+if(window.location.pathname == "/manage"){// Kiểm tra nếu đang ở trang manage để xử lý xóa thuốc
+    $ondelete = $("table tbody td a.delete"); // Chọn các liên kết có class delete
+    $ondelete.click(function(){// Thêm sự kiện click cho nút xóa
+        let id = $(this).attr("data-id") // Lấy ID của thuốc từ data-id
 
-        let request = {//save API request in variable
+        let request = {// Lưu yêu cầu API xóa
             "url" : `/api/drugs/${id}`,
             "method" : "DELETE"
         }
 
-        if(confirm("Do you really want to delete this drug?")){// bring out confirm box
-            $.ajax(request).done(function(response){// if confirmed, send API request
-                alert("Drug deleted Successfully!");//show an alert that it's done
-                location.reload();//reload the page
+        if(confirm("Do you really want to delete this drug?")){// Hiển thị hộp xác nhận
+            $.ajax(request).done(function(response){// Nếu xác nhận, gửi yêu cầu API
+                alert("Drug deleted Successfully!");// Hiển thị thông báo thành công
+                location.reload();// Tải lại trang
             })
         }
 
     })
 }
 
-if(window.location.pathname == "/purchase"){
-//$("#purchase_table").hide();
-
-$("#drug_days").submit(function(event){//on a submit event on the element with id add_drug
-    event.preventDefault();//prevent default submit behaviour
-    $("#purchase_table").show();
-    days = +$("#days").val();
-    alert("Drugs for " + days + " days!");//alert this in the browser
-})
-
-}

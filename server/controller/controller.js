@@ -64,7 +64,7 @@ exports.find = (req,res)=>{
 }
 
 
-// edits a drug selected using its  ID
+// edits a drug selected using its  ID - Hàm cập nhật thuốc theo ID
 exports.update = (req,res)=>{
     if(!req.body){
         return res
@@ -89,7 +89,7 @@ exports.update = (req,res)=>{
 }
 
 
-// deletes a drug using its drug ID
+// deletes a drug using its drug ID - Hàm xóa thuốc theo ID
 exports.delete = (req,res)=>{
     const id = req.params.id;
 
